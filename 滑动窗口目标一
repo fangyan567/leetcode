@@ -1,0 +1,327 @@
+LC 27. 移除元素 https://leetcode.cn/problems/remove-element/
+LC 26. 删除有序数组中的重复项 https://leetcode.cn/problems/remove-duplicates-from-sorted-array/
+LC 80. 删除有序数组中的重复项 II https://leetcode.cn/problems/remove-duplicates-from-sorted-array-ii/
+LC 283. 移动零 https://leetcode.cn/problems/move-zeroes/
+LC 75. 颜色分类 https://leetcode.cn/problems/sort-colors/
+
+LC 27 移除元素
+滑动窗口
+解法一:
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int n = nums.size();
+        int j = 0, i = 0;
+
+        while (j < n)
+        {
+            if (nums[j] != val)
+            {
+                nums[i++] = nums[j];
+            }
+            ++j;
+        }
+        return i;
+    }
+};
+
+
+解法二:不考虑元素顺序
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int n = nums.size();
+        int j = n - 1, i = 0;
+
+        while (i <= j)
+        {
+            if (nums[i] == val)
+            {
+                nums[i] = nums[j--];
+                
+            }
+            else
+            {
+                ++i;
+            }
+        }
+        return i;  
+    }
+};
+
+
+LC 26 删除有序数组中的重复项
+解法一:
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int n = nums.size();
+        int i = 0, j = 0;
+
+        while (j < n)
+        {
+            if (j == 0) nums[i++] = nums[j];
+            else if (nums[j] != nums[j - 1])
+            {
+                nums[i++] = nums[j];
+            }
+            ++j;
+        }
+        return i;
+    }
+};
+
+解法二：
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int n = nums.size();
+        int i = 0, j = 1;
+
+        while (j < n)
+        {
+            if (nums[j] != nums[j - 1])
+            {
+                nums[++i] = nums[j];
+            }
+            ++j;
+        }
+        return i + 1;
+    }
+};
+
+解法三:
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int n = nums.size();
+        int i = 0, j = 0;
+
+        while (j < n)
+        {
+            if (j == 0 || nums[j] != nums[j - 1])
+            {
+                nums[i++] = nums[j];
+            }
+            ++j;
+        }
+        return i;
+    }
+};
+
+通用模板：
+删除元素中的可重复项，允许可重复k次。
+
+C++版本
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int n = nums.size();
+        if (n == 0) return -1;
+        else if ( n < 2) return n;
+
+        int i = 0, j = 1, cnt = 0;
+        while (j < n)
+        {
+            if (nums[j] != nums[j - 1])
+            {
+                cnt = 0;
+            }
+            else
+            {
+                cnt++;
+            }
+            //此处cnt < 1 就是允可重复的次数
+            if (cnt < 1)
+            {
+                nums[++i] = nums[j];
+            }
+            ++j;
+        }
+        return i + 1;
+    }
+};
+
+Java版本
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int n = nums.length;
+        if (n == 0) return -1;
+        if (n < 2) return n;
+
+        int cnt = 0, i = 0, j = 1;
+        while (j < n)
+        {
+            if (nums[j] != nums[j - 1])
+            {    
+                cnt = 0;
+            }
+            else
+            {
+                cnt++;
+            }
+            //此处cnt < 1 就是允可重复的次数
+            if (cnt < 1)
+            {
+                ++i;
+                nums[i] = nums[j]; 
+            }
+            ++j;
+        }
+        return i + 1;
+    }
+}
+
+
+LC 80 删除有序数组中的重复项 II
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int n = nums.size();
+        if (n == 0) return -1;
+        else if ( n < 2) return n;
+
+        int i = 0, j = 1, cnt = 0;
+        while (j < n)
+        {
+            if (nums[j] != nums[j - 1])
+            {
+                cnt = 0;
+            }
+            else
+            {
+                cnt++;
+            }
+
+            if (cnt < 2)
+            {
+                nums[++i] = nums[j];
+            }
+            ++j;
+        }
+        return i + 1;
+    }
+};
+
+解法二:
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int n = nums.size();
+        if (n < 3) return n;
+        int i = 2, j = 2;
+        while (j < n)
+        {
+            if (nums[j] != nums[i - 2])
+            {
+                nums[i++] = nums[j];
+            }
+            ++j;
+        }
+        return i;
+    }
+};
+
+
+LC 283  移动零
+解法一:
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int n = nums.size();
+        int i = 0, j = 0;
+
+        while (j < n)
+        {
+            if (nums[j] != 0)
+            {
+                nums[i++] = nums[j];
+            }
+            ++j;
+        }
+
+        while (i < n)
+        {
+            nums[i++] = 0;
+        }
+    }
+};
+
+解法二：
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int n = nums.size();
+        int i = 0, j = 0;
+
+        while (j < n)
+        {
+            if (nums[j] != 0)
+            {
+                swap(nums[i], nums[j]);
+                ++i;
+            }
+            ++j;
+        }
+    }
+};
+
+
+
+LC 75 颜色分类
+解法一:
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int n = nums.size();
+        int p = 0;
+        for (int i = 0; i < n; i++)
+        {
+            if (nums[i] == 0)
+            {
+                swap(nums[i], nums[p]);
+                p++;
+            }
+        }
+
+        for (int i = p; i < n; i++)
+        {
+            if (nums[i] == 1)
+            {
+                swap(nums[i], nums[p]);
+                p++;
+            }
+        } 
+    }
+};
+
+解法二:
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int n = nums.size();
+        if (n < 2) return;
+        int i = 0, j = 0, k = n;
+
+        while (i < k)
+        {
+            if (nums[i] == 0)
+            {
+                swap(nums[i], nums[j]);
+                ++i;
+                ++j;
+            }
+            else if (nums[i] == 1)
+            {
+                ++i;
+            }
+            else
+            {
+                k--;
+                swap(nums[i], nums[k]);
+            }
+        } 
+    }
+};
+
+原文链接：https://blog.csdn.net/chenmi123321/article/details/125827423
