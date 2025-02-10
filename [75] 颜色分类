@@ -1,0 +1,38 @@
+/*
+ * @lc app=leetcode.cn id=75 lang=cpp
+ *
+ * [75] 颜色分类
+ */
+
+// @lc code=start
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int n = nums.size();
+        if (n <= 1) return;
+        int left = 0, right = n - 1;
+        int i = 0;
+        while (i <= right)
+        {
+            if (nums[i] == 0)
+            {
+                swap(nums[i], nums[left]);
+                ++left;
+                ++i;
+            }
+            else if (nums[i] == 1)
+            {
+                i++;
+            }
+            else if (nums[i] == 2)
+            {
+                swap(nums[right], nums[i]);
+                right--;
+            }
+        }
+        return;
+        
+    }
+};
+// @lc code=end
+
