@@ -1,0 +1,33 @@
+/*
+ * @lc app=leetcode.cn id=125 lang=cpp
+ *
+ * [125] 验证回文串
+ */
+
+// @lc code=start
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        int n = s.size();
+
+        for (int i = 0, j = n - 1; i < j; i++, j--)
+        {
+            while(i < j && !isalnum(s[i]))
+            {
+                ++i;
+            }
+            char left = tolower(s[i]);
+
+            while (i < j && !isalnum(s[j]))
+            {
+                --j;
+            }
+            char right = tolower(s[j]);
+            if (i < j && left != right) return false;
+        }
+
+        return true;
+    }
+};
+// @lc code=end
+
