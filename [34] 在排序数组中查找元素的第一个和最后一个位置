@@ -1,0 +1,52 @@
+/*
+ * @lc app=leetcode.cn id=34 lang=cpp
+ *
+ * [34] 在排序数组中查找元素的第一个和最后一个位置
+ */
+
+// @lc code=start
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        vector<int> res(2);
+        
+        res[0] = leftSearch(nums, target);
+        res[1] = rightSearch(nums, target);
+        return res;
+    }
+
+    int leftSearch(vector<int>& nums, int target)
+    {
+        int n = nums.size();
+        if (n == 0) return -1;
+        int left = 0, right = n - 1;
+        while (left + 1 < right)
+        {
+            int mid = left + (right - left) / 2;
+          
+            if (nums[mid] < target) left = mid;
+            else  right = mid;
+        }
+        if (nums[left] == target) return left;
+        if (nums[right] == target) return right;
+        return -1;
+    }
+
+    int rightSearch(vector<int>& nums, int target)
+    {
+        int n = nums.size();
+        if (n == 0) return -1;
+        int left = 0, right = n - 1;
+        while (left + 1 < right)
+        {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] <= target) left = mid;
+            else  right = mid;
+        }
+        if (nums[right] == target) return right;
+        if (nums[left] == target) return left;
+        return -1;
+    }
+};
+// @lc code=end
+
