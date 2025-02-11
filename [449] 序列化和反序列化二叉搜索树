@@ -1,0 +1,104 @@
+/*
+ * @lc app=leetcode.cn id=449 lang=cpp
+ *
+ * [449] 序列化和反序列化二叉搜索树
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        string res = "";
+        vector<int> vec;
+        posorder(root, vec);
+
+        if (vec.size() == 0) return res;
+
+        for (int i = 0; i < vec.size(); i++)
+        {
+            if (i != vec.size() - 1) res.append(to_string(vec[i]) + ",");
+            else res.append(to_string(vec[i]));
+        }
+        return res;
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        if (data.size() == 0) return nullptr;
+
+        vector<string> ans = split(data, ',');
+
+        stack<int> s;
+
+        for (auto &v : ans)
+        {
+            s.push(stoi(v));
+        }
+        return dfs(INT_MIN, INT_MAX, s);
+        
+    }
+
+    void posorder(TreeNode *root, vector<int> &vec)
+    {
+        if (!root) return;
+        posorder(root->left, vec);
+        posorder(root->right, vec);
+        vec.push_back(root->val);
+    }
+
+    TreeNode *dfs(int lower, int uper, stack<int> &s)
+    {
+        if (s.size() == 0 || s.top() < lower || s.top() > uper) return nullptr;
+
+        int val = s.top();
+        s.pop();
+        TreeNode *root = new TreeNode(val);
+        root->right = dfs(val, uper, s);
+        root->left = dfs(lower, val, s);
+        return root;
+    }
+    
+    vector<string> split(const string &str, char dec) 
+    {
+        int pos = 0;
+        int start = 0;
+        vector<string> res;
+        while (pos < str.size()) 
+        {
+            while (pos < str.size() && str[pos] == dec) 
+            {
+                pos++;
+            }
+            start = pos;
+            while (pos < str.size() && str[pos] != dec) 
+            {
+                pos++;
+            }
+            if (start < str.size()) 
+            {
+                res.emplace_back(str.substr(start, pos - start));
+            }
+        }
+        return res;
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec* ser = new Codec();
+// Codec* deser = new Codec();
+// string tree = ser->serialize(root);
+// TreeNode* ans = deser->deserialize(tree);
+// return ans;
+// @lc code=end
+
