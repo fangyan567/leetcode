@@ -1,0 +1,43 @@
+// @before-stub-for-debug-begin
+#include <vector>
+#include <string>
+#include "commoncppproblem480.h"
+
+using namespace std;
+// @before-stub-for-debug-end
+
+/*
+ * @lc app=leetcode.cn id=480 lang=cpp
+ *
+ * [480] 滑动窗口中位数
+ */
+
+// @lc code=start
+class Solution {
+public:
+    vector<double> medianSlidingWindow(vector<int>& nums, int k) {
+       multiset<double> windows;
+        vector<double> res;
+        
+     
+        for (int i = 0; i < nums.size(); i++)
+        {
+            if (i >= k)
+            {
+                windows.erase(windows.find(nums[ i - k]));
+            }
+
+            windows.insert(nums[i]);
+
+            if (i >= k - 1)
+            {
+                auto mid = windows.begin();
+                std :: advance(mid, k / 2);
+                res.push_back((*mid+ *prev(mid, 1 - k % 2)) / 2);
+            }
+        }
+        return res;
+    }
+};
+// @lc code=end
+
