@@ -1,0 +1,36 @@
+/*
+ * @lc app=leetcode.cn id=202 lang=cpp
+ *
+ * [202] 快乐数
+ */
+
+// @lc code=start
+class Solution {
+public:
+    bool isHappy(int n) {
+        int fast = getNextNum(n);
+        int slow = n;
+
+        //快慢指针
+        while (fast != 1 && fast != slow)
+        {
+            fast = getNextNum(getNextNum(fast));
+            slow = getNextNum(slow);
+        }
+        return fast == 1;
+    }
+
+    int getNextNum(int n)
+    {
+        int sum = 0;
+        while (n)
+        {
+            int t = n % 10;
+            n = n / 10;
+            sum += t * t;
+        }
+        return sum;
+    }
+};
+// @lc code=end
+
