@@ -1,0 +1,73 @@
+/*
+ * @lc app=leetcode.cn id=394 lang=cpp
+ *
+ * [394] 字符串解码
+ */
+
+// @lc code=start
+class Solution {
+public:
+    string decodeString(string s) {
+        int n = s.size(), pos = 0;
+        vector<string> stk;
+
+        while (pos < n)
+        {
+            if (isdigit(s[pos]))
+            {
+                string s1 = getDigit(pos, s);
+                stk.push_back(s1);
+            }
+            else if (isalpha(s[pos]) || s[pos] == '[' )
+            {
+               stk.push_back(string(1, s[pos++])); 
+            }
+            else
+            {
+                ++pos;
+                vector<string> vec;
+                while (stk.back() != "[")
+                {
+                    vec.push_back(stk.back());
+                    stk.pop_back();
+                }
+                reverse(vec.begin(), vec.end());
+                stk.pop_back();
+
+                int cnt = stoi(stk.back());
+                stk.pop_back();
+                string s2 = getStr(vec);
+                string s3 = "";
+                while (cnt--)
+                {
+                    s3 += s2;
+                }
+
+                stk.push_back(s3);
+            }
+        }
+        return getStr(stk);
+    }
+
+    string getDigit(int &pos, string &s)
+    {
+        string res = "";
+        while (isdigit(s[pos]))
+        {
+            res.push_back(s[pos++]);
+        }
+        return res;
+    }
+
+    string getStr(vector<string> &s)
+    {
+        string res;
+        for (const auto &v : s)
+        {
+            res += v;
+        }
+        return res;
+    }
+};
+// @lc code=end
+
