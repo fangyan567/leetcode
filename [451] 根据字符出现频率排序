@@ -1,0 +1,36 @@
+/*
+ * @lc app=leetcode.cn id=451 lang=cpp
+ *
+ * [451] 根据字符出现频率排序
+ */
+
+// @lc code=start
+class Solution {
+public:
+    string frequencySort(string s) {
+        unordered_map<char, int> m;
+        for (auto ch : s) m[ch]++;
+
+        vector<pair<char, int>> vec;
+        for (auto &[k, v] : m)
+        {
+            vec.push_back(make_pair(k, v));
+        }
+
+        sort(vec.begin(), vec.end(), [](const int &a, const int &b) {
+            return a.second > b.second;
+        });
+        string res = "";
+        for (auto &[k, v] : vec)
+        {
+            while (v--)
+            {
+                res += k;
+            }
+        }
+        return res;
+    }
+};
+
+// @lc code=end
+
