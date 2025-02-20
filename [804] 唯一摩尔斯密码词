@@ -1,0 +1,32 @@
+/*
+ * @lc app=leetcode.cn id=804 lang=cpp
+ *
+ * [804] 唯一摩尔斯密码词
+ */
+
+// @lc code=start
+
+
+class Solution {
+    static string MORSE[] = {
+        ".-", "-...", "-.-.", "-..", ".", "..-.", "--.",
+        "....", "..", ".---", "-.-", ".-..", "--", "-.",
+        "---", ".--.", "--.-", ".-.", "...", "-", "..-",
+        "...-", ".--", "-..-", "-.--", "--.."
+};
+public:
+    int uniqueMorseRepresentations(vector<string> &words) {
+        unordered_set<string> set;
+        for (auto &word: words) {
+            string str;
+            for (auto &c: word) {
+                str.append(MORSE[c - 'a']);
+            }
+            set.insert(str);
+        }
+        return set.size();
+    }
+};
+
+// @lc code=end
+
