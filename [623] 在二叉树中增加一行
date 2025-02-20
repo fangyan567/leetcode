@@ -1,0 +1,48 @@
+/*
+ * @lc app=leetcode.cn id=623 lang=cpp
+ *
+ * [623] 在二叉树中增加一行
+ */
+
+// @lc code=start
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* addOneRow(TreeNode* root, int val, int depth) {
+        if (depth == 1) return new TreeNode(val, root, nullptr);
+
+        vector<TreeNode *> q(1, root);
+        
+        int curDepth = 1;
+        while (curDepth < depth - 1)
+        {
+            vector<TreeNode *> t;
+            for (auto &p : q)
+            {
+                if (p->left) t.push_back(p->left);
+                if (p->right) t.push_back(p->right);
+            }
+            q = move(t);
+            ++curDepth;
+        }
+
+        for (auto &cur : q)
+        {
+            cur->left = addOneRow(val, cur->left, nullptr);
+            cur->right = addOneRow(val, nullptr, cur->right);
+        }
+        return root;
+    }
+};
+// @lc code=end
+
