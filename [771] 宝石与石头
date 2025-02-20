@@ -1,0 +1,23 @@
+/*
+ * @lc app=leetcode.cn id=771 lang=cpp
+ *
+ * [771] 宝石与石头
+ */
+
+// @lc code=start
+class Solution {
+public:
+    int numJewelsInStones(string jewels, string stones) {
+        unordered_set<char> set;
+        for (char ch : jewels) set.insert(ch);
+        
+        int res = 0;
+        for (char ch : stones)
+        {
+            if (set.count(ch)) res++;
+        }
+        return res;
+    }
+};
+// @lc code=end
+
